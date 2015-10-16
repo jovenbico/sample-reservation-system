@@ -15,9 +15,17 @@ repositories {
 }
 
 dependencies {
+	compile 'org.springframework:spring-core:4.+'
+	compile 'org.springframework:spring-context:4.+'
+	compile 'org.springframework:spring-orm:4.+'
+	
     compile 'org.hibernate:hibernate-core:5.0.+'
-    compile 'org.apache.logging.log4j:log4j-api:2.+'
-    compile 'org.apache.logging.log4j:log4j-core:2.+'
+    compile 'org.apache.commons:commons-dbcp2:2.+'
+    compile 'mysql:mysql-connector-java:5.1.36'
+    
+    compile 'log4j:log4j:1.2.+'
+    
+    testCompile 'org.springframework:spring-test:4.+'
     testCompile 'junit:junit:4.+'
 }
 
