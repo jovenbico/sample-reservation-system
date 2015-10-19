@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.*
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
@@ -29,14 +31,16 @@ dependencies {
     testCompile 'junit:junit:4.+'
 }
 
-test {
-    systemProperties 'property': 'value'
+processResources {
+    filter ReplaceTokens, tokens: [
+        "db.username": project.property("local.db.username"),
+        "db.password": project.property("local.db.password")
+    ]
 }
 
-uploadArchives {
-    repositories {
-       flatDir {
-           dirs 'repos'
-       }
-    }
+test {
+	filter {
+		includeTestsMatching '*Test'
+	}
 }
+
