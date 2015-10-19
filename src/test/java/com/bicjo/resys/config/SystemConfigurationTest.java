@@ -14,6 +14,7 @@ public class SystemConfigurationTest {
 	@Test
 	public void test() throws Exception {
 		assertTrue(Boolean.TRUE);
+
 	}
 
 }

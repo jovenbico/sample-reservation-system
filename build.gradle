@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.*
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 version = '1.0'
@@ -44,3 +45,6 @@ test {
 	}
 }
 
+jacoco {
+	toolVersion = '0.7.5.201505241946'
+}
