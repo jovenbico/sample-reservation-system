@@ -30,6 +30,9 @@ public class SystemConfiguration {
 	private final String DB_USERNAME = "db.username";
 	private final String DB_PASSWORD = "db.password";
 
+	private final String HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+	private final String HIBERNATE_SHOW_SQL = "hibernate.show_sql";
+
 	public SystemConfiguration() {
 
 	}
@@ -56,9 +59,12 @@ public class SystemConfiguration {
 		Properties hibernateProperties = new Properties();
 		hibernateProperties.put("hibernate.dialect",
 				"org.hibernate.dialect.MySQLDialect");
-		hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
-		hibernateProperties.put("hibernate.show_sql", "true");
-		hibernateProperties.put("hibernate.format_sql", "true");
+		hibernateProperties.put("hibernate.hbm2ddl.auto",
+				env.getProperty(HIBERNATE_HBM2DDL_AUTO));
+		hibernateProperties.put("hibernate.show_sql",
+				env.getProperty(HIBERNATE_SHOW_SQL));
+		hibernateProperties.put("hibernate.format_sql",
+				env.getProperty(HIBERNATE_SHOW_SQL));
 
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setHibernateProperties(hibernateProperties);

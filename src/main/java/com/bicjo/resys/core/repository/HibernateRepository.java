@@ -6,9 +6,9 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.bicjo.resys.core.repository.hibernate.HibernateSpecification;
 import com.bicjo.resys.domain.Domain;
 
-// TODO continue working on this
 public class HibernateRepository implements Repository {
 
 	private SessionFactory sessionFactory;
