@@ -1,13 +1,11 @@
 package com.bicjo.resys.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity(name = "users")
-public class User implements Serializable {
+public class User implements Domain {
 
 	private static final long serialVersionUID = 3279544047957545986L;
 

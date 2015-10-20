@@ -1,7 +1,5 @@
 package com.bicjo.resys.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity(name = "reservations")
-public class Reservation implements Serializable {
+public class Reservation implements Domain {
 
 	private static final long serialVersionUID = 5570999411000873160L;
 

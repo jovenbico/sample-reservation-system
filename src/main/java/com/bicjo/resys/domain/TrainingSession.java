@@ -1,6 +1,5 @@
 package com.bicjo.resys.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity(name = "training_sessions")
-public class TrainingSession implements Serializable {
+public class TrainingSession implements Domain {
 
 	private static final long serialVersionUID = -4475708079342850468L;
 
