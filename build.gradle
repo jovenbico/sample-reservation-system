@@ -1,5 +1,3 @@
-import org.apache.tools.ant.filters.*
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
@@ -30,13 +28,6 @@ dependencies {
     
     testCompile 'org.springframework:spring-test:4.+'
     testCompile 'junit:junit:4.+'
-}
-
-processResources {
-    filter ReplaceTokens, tokens: [
-        "db.username": project.property("local.db.username"),
-        "db.password": project.property("local.db.password")
-    ]
 }
 
 test {

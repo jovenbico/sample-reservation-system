@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,20 +18,33 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = { "classpath:config.properties" })
+@PropertySource(value = { "classpath:${env:test}-config.properties" })
 public class SystemConfiguration {
+
+	private final Logger LOG = Logger.getLogger(this.getClass());
 
 	@Autowired
 	private Environment env;
 
+	private final String DB_URL = "db.url";
+	private final String DB_USERNAME = "db.username";
+	private final String DB_PASSWORD = "db.password";
+
+	public SystemConfiguration() {
+
+	}
+
 	@Bean
 	public DataSource dataSource() {
+		String dbUrl = env.getProperty(DB_URL);
+		LOG.info("DB url: " + dbUrl);
+
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource
-				.setUrl("jdbc:mysql://localhost/reservation_system?createDatabaseIfNotExist=true");
-		dataSource.setUsername(this.env.getProperty("db.username"));
-		dataSource.setPassword(this.env.getProperty("db.password"));
+		dataSource.setUrl("jdbc:mysql://localhost/" + dbUrl
+				+ "?createDatabaseIfNotExist=true");
+		dataSource.setUsername(env.getProperty(DB_USERNAME));
+		dataSource.setPassword(env.getProperty(DB_PASSWORD));
 
 		return dataSource;
 	}
@@ -46,7 +60,7 @@ public class SystemConfiguration {
 		hibernateProperties.put("hibernate.show_sql", "true");
 		hibernateProperties.put("hibernate.format_sql", "true");
 
-		sessionFactory.setDataSource(this.dataSource());
+		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setHibernateProperties(hibernateProperties);
 		sessionFactory.setPackagesToScan("com.bicjo.resys.domain");
 
@@ -56,7 +70,7 @@ public class SystemConfiguration {
 	@Bean
 	public PlatformTransactionManager transactionManager() {
 		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-		transactionManager.setSessionFactory(this.sessionFactory().getObject());
+		transactionManager.setSessionFactory(sessionFactory().getObject());
 
 		return transactionManager;
 	}
