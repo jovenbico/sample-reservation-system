@@ -14,6 +14,14 @@ public class User implements Domain {
 	private Long id;
 	private String username;
 
+	public User() {
+		this(null);
+	}
+
+	public User(String username) {
+		this.username = username;
+	}
+
 	public Long getId() {
 		return id;
 	}

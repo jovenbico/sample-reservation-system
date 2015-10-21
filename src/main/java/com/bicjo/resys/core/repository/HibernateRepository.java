@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import com.bicjo.resys.core.repository.hibernate.HibernateSpecification;
 import com.bicjo.resys.domain.Domain;
 
+@org.springframework.stereotype.Repository
 public class HibernateRepository implements Repository {
 
 	private SessionFactory sessionFactory;
@@ -27,6 +28,17 @@ public class HibernateRepository implements Repository {
 		return hibernateSpecification.createCriteria()
 				.getExecutableCriteria(session).list();
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T get(Specification<T> specification) {
+
+		HibernateSpecification<T> hibernateSpecification = (HibernateSpecification<T>) specification;
+		Session session = sessionFactory.getCurrentSession();
+
+		return (T) hibernateSpecification.createCriteria()
+				.getExecutableCriteria(session).uniqueResult();
 	}
 
 	@Override
@@ -55,21 +67,30 @@ public class HibernateRepository implements Repository {
 	}
 
 	@Override
-	public void insertAll(Domain... entities) {
+	public <T> void delete(T entity) {
 
 		Session session = sessionFactory.getCurrentSession();
-		for (Domain aDomain : entities) {
+		session.delete(entity);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> void insertAll(T... entities) {
+
+		Session session = sessionFactory.getCurrentSession();
+		for (T aDomain : entities) {
 			session.save(aDomain);
 		}
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void deleteAll(Class<Domain> entityClass) {
+	public <T> void deleteAll(T... entities) {
 
 		Session session = sessionFactory.getCurrentSession();
-		List<Domain> enteties = findAll(entityClass);
-		for (Domain aDomain : enteties) {
+		for (T aDomain : entities) {
 			session.delete(aDomain);
 		}
 

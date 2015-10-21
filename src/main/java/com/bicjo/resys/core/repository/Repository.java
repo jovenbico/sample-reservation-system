@@ -9,14 +9,20 @@ public interface Repository {
 
 	<T> List<T> find(Specification<T> specification);
 
+	<T> T get(Specification<T> specification);
+
 	Serializable insert(Domain entity);
 
 	<T> List<T> findAll(Class<T> entityClass);
 
 	<T> T retrieve(Class<T> entityClass, Serializable key);
 
-	void insertAll(Domain... entities);
+	<T> void delete(T entity);
 
-	void deleteAll(Class<Domain> entityType);
+	@SuppressWarnings("unchecked")
+	<T> void insertAll(T... entities);
+
+	@SuppressWarnings("unchecked")
+	<T> void deleteAll(T... entities);
 
 }
