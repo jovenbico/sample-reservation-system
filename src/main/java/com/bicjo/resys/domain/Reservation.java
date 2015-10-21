@@ -1,5 +1,6 @@
 package com.bicjo.resys.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,8 +24,18 @@ public class Reservation implements Domain {
 	@JoinColumn(name = "training_session_id")
 	private TrainingSession trainingSession;
 
+	@Column(name = "number_of_people")
 	private int numberOfPeople;
 	private boolean cancelled;
+
+	public Reservation() {
+		this(null, 0);
+	}
+
+	public Reservation(User user, int numberOfPeople) {
+		this.user = user;
+		this.numberOfPeople = numberOfPeople;
+	}
 
 	public Long getId() {
 		return id;
@@ -64,6 +75,14 @@ public class Reservation implements Domain {
 
 	public void setTrainingSession(TrainingSession trainingSession) {
 		this.trainingSession = trainingSession;
+	}
+
+	public void cancel() {
+		cancelled = true;
+	}
+
+	public int occupiedSeats() {
+		return cancelled ? 0 : numberOfPeople;
 	}
 
 }

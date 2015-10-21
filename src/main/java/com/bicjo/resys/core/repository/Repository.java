@@ -3,19 +3,21 @@ package com.bicjo.resys.core.repository;
 import java.io.Serializable;
 import java.util.List;
 
-import com.bicjo.resys.domain.Domain;
-
 public interface Repository {
+
+	public static final String HIBERNATE = "hibernate";
+
+	<T> Serializable insert(T entity);
 
 	<T> List<T> find(Specification<T> specification);
 
 	<T> T get(Specification<T> specification);
 
-	Serializable insert(Domain entity);
+	<T> T retrieve(Class<T> entityClass, Serializable key);
 
 	<T> List<T> findAll(Class<T> entityClass);
 
-	<T> T retrieve(Class<T> entityClass, Serializable key);
+	<T> void update(T entity);
 
 	<T> void delete(T entity);
 

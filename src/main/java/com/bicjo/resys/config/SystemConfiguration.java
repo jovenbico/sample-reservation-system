@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = { "classpath:${env:test}-config.properties" })
-@ComponentScan(basePackageClasses = { RepositoryComponent.class })
+@ComponentScan(basePackageClasses = { RepositoryComponent.class }, basePackages = { "com.bicjo.resys.service.*.impl" })
 public class SystemConfiguration {
 
 	private final Logger LOG = Logger.getLogger(this.getClass());

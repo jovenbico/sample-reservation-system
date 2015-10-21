@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.bicjo.resys.domain.exception.ReservationException;
+
 @Entity(name = "training_sessions")
 public class TrainingSession implements Domain {
 
@@ -23,6 +25,14 @@ public class TrainingSession implements Domain {
 
 	@OneToMany(mappedBy = "trainingSession")
 	private List<Reservation> reservations = new ArrayList<>();
+
+	public TrainingSession() {
+		this(0);
+	}
+
+	public TrainingSession(int totalCapacity) {
+		this.totalCapacity = totalCapacity;
+	}
 
 	public Long getId() {
 		return id;
@@ -46,6 +56,40 @@ public class TrainingSession implements Domain {
 
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public Reservation reserveSpace(long userId, int numberOfPeople)
+			throws ReservationException {
+
+		if (seatsAvailable(numberOfPeople)) {
+			User requestor = new User(userId);
+			Reservation newReservation = new Reservation(requestor,
+					numberOfPeople);
+			reservations.add(newReservation);
+			return newReservation;
+		} else {
+			throw new ReservationException("No available space");
+		}
+
+	}
+
+	private boolean seatsAvailable(int numberOfPeople) {
+
+		int reservedCount = reservedSeats();
+
+		return (reservedCount + numberOfPeople) <= totalCapacity;
+	}
+
+	private int reservedSeats() {
+		int reservedCount = 0;
+		for (Reservation each : reservations) {
+			reservedCount += each.occupiedSeats();
+		}
+		return reservedCount;
+	}
+
+	public int availableSeats() {
+		return totalCapacity - reservedSeats();
 	}
 
 }

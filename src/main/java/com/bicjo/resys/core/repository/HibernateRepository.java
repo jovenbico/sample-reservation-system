@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.bicjo.resys.core.repository.hibernate.HibernateSpecification;
-import com.bicjo.resys.domain.Domain;
 
 @org.springframework.stereotype.Repository
 public class HibernateRepository implements Repository {
@@ -16,6 +15,14 @@ public class HibernateRepository implements Repository {
 
 	public HibernateRepository(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	@Override
+	public <T> Serializable insert(T entity) {
+
+		Session session = sessionFactory.getCurrentSession();
+		return session.save(entity);
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,14 +48,6 @@ public class HibernateRepository implements Repository {
 				.getExecutableCriteria(session).uniqueResult();
 	}
 
-	@Override
-	public Serializable insert(Domain entity) {
-
-		Session session = sessionFactory.getCurrentSession();
-		return session.save(entity);
-
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findAll(Class<T> entityClass) {
@@ -63,6 +62,14 @@ public class HibernateRepository implements Repository {
 
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(entityClass, key);
+
+	}
+
+	@Override
+	public <T> void update(T entity) {
+
+		Session session = sessionFactory.getCurrentSession();
+		session.update(entity);
 
 	}
 
