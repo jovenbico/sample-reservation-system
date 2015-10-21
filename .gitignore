@@ -4,5 +4,4 @@
 .settings
 .classpath
 .project
-dev-config.properties
-test-config.properties
+src/main/resources/*.properties
